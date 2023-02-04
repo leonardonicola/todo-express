@@ -1,17 +1,17 @@
+import axios from 'axios'
+
 interface ITask {
   name: string
   done: boolean
 }
 
 const fetchData = async (): Promise<ITask[]> => {
-  const res = await fetch(`${import.meta.env.VITE_BASE_URL}/tasks`)
-  if (!res.ok) throw new Error(res.statusText)
-  return res.json()
+  return axios.get('http://localhost:3000/tasks').then((res) => res.data)
 }
 
 const addTodo = async (taskName: string): Promise<ITask> => {
   const task: ITask = { name: taskName, done: false }
-  const res = await fetch(`${import.meta.env.VITE_BASE_URL}/add`, {
+  const res = await fetch(`http://localhost:3000/add`, {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',
