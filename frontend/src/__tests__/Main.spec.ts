@@ -1,25 +1,6 @@
-import { describe, it, expect, beforeAll, afterAll, afterEach } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
-import { rest } from 'msw'
-import { setupServer } from 'msw/node'
 import App from '@/App.vue'
-
-const server = setupServer(
-  rest.get('http://localhost:3000/tasks', (req, res, ctx) => {
-    return res(
-      ctx.json([
-        {
-          name: 'Aprender MSW',
-          done: false,
-        },
-      ])
-    )
-  })
-)
-
-beforeAll(() => server.listen())
-afterEach(() => server.resetHandlers())
-afterAll(() => server.close())
 
 describe('Main', () => {
   it('should GET task name correctly', async () => {
@@ -27,5 +8,18 @@ describe('Main', () => {
     await flushPromises()
     const todoName = wrapper.find('p')
     expect(todoName.text()).toEqual('Aprender MSW')
+  })
+
+  it('should ADD task correctly', async () => {
+    const wrapper = mount(App)
+    //First flush to make a GET request and load data
+    await flushPromises()
+    const input = wrapper.find('input[type=text]')
+    const button = wrapper.find('button')
+    await input.setValue('new task in todo')
+    await button.trigger('click')
+    //Second flush to make a POST request
+    await flushPromises()
+    expect(wrapper.findAll('p')[1].text()).toEqual('new task in todo')
   })
 })
