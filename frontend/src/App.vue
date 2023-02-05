@@ -8,7 +8,8 @@ const newTask = ref<string>('')
 
 const addNewTask = async (): Promise<void> => {
   if (newTask.value !== '') {
-    tasks.value.push(await addTodo(newTask.value))
+    const task = { name: newTask.value, done: false }
+    tasks.value.push(await addTodo(task))
     newTask.value = ''
   }
 }
