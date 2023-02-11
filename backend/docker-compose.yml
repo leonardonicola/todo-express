@@ -1,11 +1,12 @@
-version: '3.6'
+version: '3.7'
 services:
   db:
-    image: postgres:latest
+    image: postgres
     environment:
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: todo_express
+      POSTGRES_DB: todo_crud
+      POSTGRES_USER: postgres
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
       - ./pgdata:/var/lib/postgresql/data
