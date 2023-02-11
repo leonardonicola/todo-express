@@ -1,4 +1,4 @@
-import { PostgresDataSource } from '../config/ormconfig'
+import { PostgresDataSource } from '../data-source'
 import { Tasks } from '../entities/Tasks'
 
 export class GetTasksService {
